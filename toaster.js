@@ -88,6 +88,24 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
                 if (!toast.type)
                     toast.type = mergedConfig['icon-class'];
 
+                switch (toast.type) {
+                    case "toast-error":
+                    toast.fa_icon = "fa fa-bomb";
+                    break;
+                    case "toast-info":
+                    toast.fa_icon = "fa fa-info";
+                    break;
+                    case "toast-wait":
+                    toast.fa_icon = "fa fa-refresh fa-spin";
+                    break;
+                    case "toast-success":
+                    toast.fa_icon = "fa fa-check";
+                    break;
+                    case "toast-warning":
+                    toast.fa_icon = "fa fa-exclamation";
+                    break;
+                }
+
                 id++;
                 angular.extend(toast, { id: id });
 
@@ -173,6 +191,7 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
         '<div  id="toast-container" ng-class="config.position">' +
             '<div ng-repeat="toaster in toasters" class="toast" ng-class="toaster.type" ng-click="click(toaster)" ng-mouseover="stopTimer(toaster)"  ng-mouseout="restartTimer(toaster)">' +
               '<button class="toast-close-button" ng-show="config.closeButton">&times;</button>' +
+              '<i ng-class="toaster.fa-icon"></i>' +
               '<div ng-class="config.title">{{toaster.title}}</div>' +
               '<div ng-class="config.message" ng-switch on="toaster.bodyOutputType">' +
                 '<div ng-switch-when="trustedHtml" ng-bind-html="toaster.html"></div>' +
