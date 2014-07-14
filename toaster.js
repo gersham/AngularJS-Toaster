@@ -15,6 +15,52 @@
 
 angular.module('toaster', ['ngAnimate'])
 .service('toaster', ['$rootScope', function ($rootScope) {
+
+    this.error = function (title, body) {
+        this.toast = {
+            'type': 'error',
+            'title': title,
+            'body': body
+        };
+        $rootScope.$broadcast('toaster-newToast');
+    };
+
+    this.success = function (title, body) {
+        this.toast = {
+            'type': 'success',
+            'title': title,
+            'body': body
+        };
+        $rootScope.$broadcast('toaster-newToast');
+    };
+
+    this.info = function (title, body) {
+        this.toast = {
+            'type': 'info',
+            'title': title,
+            'body': body
+        };
+        $rootScope.$broadcast('toaster-newToast');
+    };
+
+    this.warning = function (title, body) {
+        this.toast = {
+            'type': 'warning',
+            'title': title,
+            'body': body
+        };
+        $rootScope.$broadcast('toaster-newToast');
+    };
+
+    this.wait = function (title, body) {
+        this.toast = {
+            'type': 'wait',
+            'title': title,
+            'body': body
+        };
+        $rootScope.$broadcast('toaster-newToast');
+    };
+
     this.pop = function (type, title, body, timeout, bodyOutputType, clickHandler) {
         this.toast = {
             type: type,
@@ -41,7 +87,7 @@ angular.module('toaster', ['ngAnimate'])
     //'fade-out': 1000,           // done in css
     // 'on-fade-out': undefined,  // not implemented
     //'extended-time-out': 1000,    // not implemented
-    'time-out': 5000, // Set timeOut and extendedTimeout to 0 to make it sticky
+    'time-out': 4000, // Set timeOut and extendedTimeout to 0 to make it sticky
     'icon-classes': {
         error: 'toast-error',
         info: 'toast-info',
@@ -52,7 +98,7 @@ angular.module('toaster', ['ngAnimate'])
     'body-output-type': '', // Options: '', 'trustedHtml', 'template'
     'body-template': 'toasterBodyTmpl.html',
     'icon-class': 'toast-info',
-    'position-class': 'toast-top-right',
+    'position-class': 'toast-top-left',
     'title-class': 'toast-title',
     'message-class': 'toast-message'
 })
@@ -90,19 +136,19 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
 
                 switch (toast.type) {
                     case "toast-error":
-                    toast.fa_icon = "fa fa-bomb fa-2x";
+                    toast.fa_icon = "fa fa-bomb fa-fw fa-2x";
                     break;
                     case "toast-info":
-                    toast.fa_icon = "fa fa-info fa-2x";
+                    toast.fa_icon = "fa fa-info-circle fa-fw fa-2x";
                     break;
                     case "toast-wait":
-                    toast.fa_icon = "fa fa-refresh fa-spin fa-2x";
+                    toast.fa_icon = "fa fa-refresh fa-fw fa-spin fa-2x";
                     break;
                     case "toast-success":
-                    toast.fa_icon = "fa fa-check fa-2x";
+                    toast.fa_icon = "fa fa-check fa-fw fa-2x";
                     break;
                     case "toast-warning":
-                    toast.fa_icon = "fa fa-exclamation fa-2x";
+                    toast.fa_icon = "fa fa-exclamation-triangle fa-fw fa-2x";
                     break;
                 }
 
@@ -191,13 +237,19 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
         '<div  id="toast-container" ng-class="config.position">' +
             '<div ng-repeat="toaster in toasters" class="toast" ng-class="toaster.type" ng-click="click(toaster)" ng-mouseover="stopTimer(toaster)"  ng-mouseout="restartTimer(toaster)">' +
               '<button class="toast-close-button" ng-show="config.closeButton">&times;</button>' +
-              '<i ng-class="toaster.fa_icon"></i>' +
-              '<div ng-class="config.title">{{toaster.title}}</div>' +
-              '<div ng-class="config.message" ng-switch on="toaster.bodyOutputType">' +
-                '<div ng-switch-when="trustedHtml" ng-bind-html="toaster.html"></div>' +
-                '<div ng-switch-when="template"><div ng-include="toaster.bodyTemplate"></div></div>' +
-                '<div ng-switch-default >{{toaster.body}}</div>' +
-              '</div>' +
+              '<div class="row">' +
+                  '<div class="col-xs-2 toast-icon">' +
+                    '<i ng-class="toaster.fa_icon"></i>' +
+                  '</div>' +
+                  '<div class="col-xs-10">' +
+                      '<div ng-class="config.title">{{toaster.title}}</div>' +
+                      '<div ng-class="config.message" ng-switch on="toaster.bodyOutputType">' +
+                        '<div ng-switch-when="trustedHtml" ng-bind-html="toaster.html"></div>' +
+                        '<div ng-switch-when="template"><div ng-include="toaster.bodyTemplate"></div></div>' +
+                        '<div ng-switch-default >{{toaster.body}}</div>' +
+                      '</div>' +
+                  '</div>' +
+                '</div>' + 
             '</div>' +
         '</div>'
     };
