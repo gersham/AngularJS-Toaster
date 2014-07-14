@@ -41,7 +41,7 @@ angular.module('toaster', ['ngAnimate'])
     //'fade-out': 1000,           // done in css
     // 'on-fade-out': undefined,  // not implemented
     //'extended-time-out': 1000,    // not implemented
-    'time-out': 5000, // Set timeOut and extendedTimeout to 0 to make it sticky
+    'time-out': 500000, // Set timeOut and extendedTimeout to 0 to make it sticky
     'icon-classes': {
         error: 'toast-error',
         info: 'toast-info',
@@ -90,19 +90,19 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
 
                 switch (toast.type) {
                     case "toast-error":
-                    toast.fa_icon = "fa fa-bomb";
+                    toast.fa_icon = "fa fa-bomb fa-2x";
                     break;
                     case "toast-info":
-                    toast.fa_icon = "fa fa-info";
+                    toast.fa_icon = "fa fa-info fa-2x";
                     break;
                     case "toast-wait":
-                    toast.fa_icon = "fa fa-refresh fa-spin";
+                    toast.fa_icon = "fa fa-refresh fa-spin fa-2x";
                     break;
                     case "toast-success":
-                    toast.fa_icon = "fa fa-check";
+                    toast.fa_icon = "fa fa-check fa-2x";
                     break;
                     case "toast-warning":
-                    toast.fa_icon = "fa fa-exclamation";
+                    toast.fa_icon = "fa fa-exclamation fa-2x";
                     break;
                 }
 
@@ -191,7 +191,7 @@ function ($compile, $timeout, $sce, toasterConfig, toaster) {
         '<div  id="toast-container" ng-class="config.position">' +
             '<div ng-repeat="toaster in toasters" class="toast" ng-class="toaster.type" ng-click="click(toaster)" ng-mouseover="stopTimer(toaster)"  ng-mouseout="restartTimer(toaster)">' +
               '<button class="toast-close-button" ng-show="config.closeButton">&times;</button>' +
-              '<i ng-class="toaster.fa-icon"></i>' +
+              '<i ng-class="toaster.fa_icon"></i>' +
               '<div ng-class="config.title">{{toaster.title}}</div>' +
               '<div ng-class="config.message" ng-switch on="toaster.bodyOutputType">' +
                 '<div ng-switch-when="trustedHtml" ng-bind-html="toaster.html"></div>' +
